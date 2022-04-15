@@ -98,30 +98,32 @@ def ComputeProperties(labels):
 
 
 def ComputeCenters(img, labels, K):
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
 
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-
-    # returns centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    returns centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     centers = np.zeros([K, img.shape[1]])
 
     for k in range(0, K):
         clust = img[labels == k]
-        centers[k, 0:img.shape[1]] = np.mean(clust, 0)
+        centers[k, 0 : img.shape[1]] = np.mean(clust, 0)
 
     return centers
-    
+
 
 def CalinskiHarabasz(img, labels, n, K, C, centers):
-
-    # n = number of pixels in image
-    # K = number of superpixels
-    # C = mean vector of image 1xD where D is the dimensionality of a pixel
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    n = number of pixels in image
+    K = number of superpixels
+    C = mean vector of image 1xD where D is the dimensionality of a pixel
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel 
+    """
 
     ssbtwn = 0
     sswtn = 0
@@ -140,12 +142,13 @@ def CalinskiHarabasz(img, labels, n, K, C, centers):
 
 
 def LocalCalinskiHarabasz(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    # Al = adjacency list of length K
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    Al = adjacency list of length K
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -173,11 +176,12 @@ def LocalCalinskiHarabasz(img, labels, K, centers, Al):
 
 
 def LocalCalinskiHarabasz2(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel 
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -205,11 +209,12 @@ def LocalCalinskiHarabasz2(img, labels, K, centers, Al):
 
 
 def DaviesBouldin(img, labels, K, centers):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     db = np.full([K, 1], -1.00)
 
@@ -241,11 +246,12 @@ def DaviesBouldin(img, labels, K, centers):
 
 
 def LocalDaviesBouldin(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -277,11 +283,12 @@ def LocalDaviesBouldin(img, labels, K, centers, Al):
 
 
 def Dunn(img, labels, K, centers):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     dunn = np.full([K, 1], 0.00)
     diamMAX = 0.00
@@ -311,11 +318,12 @@ def Dunn(img, labels, K, centers):
 
 
 def LocalDunn(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -343,12 +351,13 @@ def LocalDunn(img, labels, K, centers, Al):
 
 
 def I(img, labels, K, C, centers):
-
-    # K = number of superpixels
-    # C = mean vector of image 1xD where D is the dimensionality of a pixel
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    C = mean vector of image 1xD where D is the dimensionality of a pixel
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     imageDISP = np.sum(np.linalg.norm((img - C), None, 1))
     dwtn = 0.00
@@ -365,11 +374,12 @@ def I(img, labels, K, C, centers):
 
 
 def LocalI(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -396,12 +406,13 @@ def LocalI(img, labels, K, centers, Al):
 
 
 def RSquared(img, labels, K, C, centers):
-
-    # K = number of superpixels
-    # C = mean vector of image 1xD where D is the dimensionality of a pixel
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    C = mean vector of image 1xD where D is the dimensionality of a pixel
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     num = 0
 
@@ -417,11 +428,12 @@ def RSquared(img, labels, K, C, centers):
 
 
 def LocalRSquared(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -443,11 +455,12 @@ def LocalRSquared(img, labels, K, centers, Al):
 
 
 def RootMeanSquaredStandardDeviation(img, labels, K, centers):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     dwtn = 0
     denom = 0
@@ -464,11 +477,12 @@ def RootMeanSquaredStandardDeviation(img, labels, K, centers):
 
 
 def LocalRootMeanSquaredStandardDeviation(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -490,12 +504,13 @@ def LocalRootMeanSquaredStandardDeviation(img, labels, K, centers, Al):
 
 
 def XieBeni(img, labels, n, K, centers):
-
-    # n = number of pixels in image
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    n = number of pixels in image
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     dwtn = 0
     dn = pdist(centers) ** 2
@@ -510,11 +525,12 @@ def XieBeni(img, labels, n, K, centers):
 
 
 def LocalXieBeni(img, labels, K, centers, Al):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -536,11 +552,12 @@ def LocalXieBeni(img, labels, K, centers, Al):
 
 
 def Variance(img, labels, K, centers):
-
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
-    # centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    """
 
     kscores = np.full([K, 1], 0.00)
 
@@ -556,11 +573,12 @@ def Variance(img, labels, K, centers):
 
 
 def Compactness(img, labels, n, K, properties):
-
-    # n = number of pixels in image
-    # K = number of superpixels
-    # img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    # labels = nx1 where n is the number of pixels in the image
+    """
+    n = number of pixels in image
+    K = number of superpixels
+    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+    labels = nx1 where n is the number of pixels in the image
+    """
 
     kscores = np.full([K, 1], 0.00)
 
