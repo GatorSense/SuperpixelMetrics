@@ -13,6 +13,10 @@ The required packages can be found in requirements.txt. To install those, you ca
 
 Metric validation experiments were conducted on the 200 images in the BSDS500 training set. To access these images, please proceed to the [BSDS500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/resources.html) website.
 
+    Contour Detection and Hierarchical Image Segmentation
+    P. Arbelaez, M. Maire, C. Fowlkes and J. Malik.
+    IEEE TPAMI, Vol. 33, No. 5, pp. 898-916, May 2011.
+
 ## II. Functions
 
 ```python 
