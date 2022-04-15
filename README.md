@@ -9,7 +9,11 @@ The required packages can be found in requirements.txt. To install those, you ca
 
 ***
 
-## I. Functions
+## I. Berkeley Segmentation Dataset 500
+
+Metric validation experiments were conducted on the 200 images in the BSDS500 training set. To access these images, please proceed to the [BSDS500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/resources.html) website.
+
+## II. Functions
 
 ```python 
 def ComputeAdjacency(labels, K, connectivity) 
@@ -268,7 +272,7 @@ Output:
 
 ***
 
-## II. Citing
+## III. Citing
 
 If you use this code, please cite ..
 
