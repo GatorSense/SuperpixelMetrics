@@ -2,17 +2,19 @@ import scipy as sp
 import numpy as np
 from scipy.spatial.distance import pdist
 from skimage.measure import regionprops
+from typing import List
+import numpy.typing as npt
 
 
 def ComputeAdjacency(
-    labels: np.ndarray, K: int, connectivity=8
-) -> tuple(np.ndarray, list):
+    labels: npt.NDArray[np.int_], K: int, connectivity=8
+) -> tuple(npt.NDArray[np.int_], List[int]):
     """
     Compute adjacency matrix
 
     Inputs
     ------
-    labels: np.ndarray (int) size(image)
+    labels: np.ndarray (int) shape:(image)
         NumPy array containing superpixel label of each pixel.
     K: int
         Number of superpixels within the image.
@@ -21,12 +23,11 @@ def ComputeAdjacency(
     
     Outputs
     -------
-    Am: np.ndarray (int) size(K x K)
+    Am: np.ndarray (int) shape:(K x K)
         Adjacency matrix containing values indicating adjacent superpixels
         in theneighborhood. 
     Al: list len(K)
         List containing adjacent indices for each superpixel neighborhood.
-    
     """
     rows, cols = labels.shape[0], labels.shape[1]
 
@@ -114,13 +115,25 @@ def ComputeProperties(labels):
     return properties
 
 
-def ComputeCenters(img, labels, K):
+def ComputeCenters(
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_], K: int
+) -> npt.NDArray[np.float64]:
     """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
+    Computes superpixel centers.
 
-    returns centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+    Inputs
+    ------
+    img: np.ndarray (float) shape:(n x D)
+        Reshaped NumPy array of image data with each row containing a pixel and its features.
+    labels: np.ndarray (int) shape:(n x 1)?
+        NumPy array containing superpixel label of each pixel.
+    K: int
+        Number of superpixels within the image.
+
+    Outputs
+    -------
+    centers: np.ndarray (float) shape:(K x D)
+        Superpixel centers in feature space.
     """
 
     centers = np.zeros([K, img.shape[1]])
@@ -132,7 +145,9 @@ def ComputeCenters(img, labels, K):
     return centers
 
 
-def CalinskiHarabasz(img, labels, n, K, C, centers):
+def CalinskiHarabasz(
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_], n, K, C, centers
+):
     """
     n = number of pixels in image
     K = number of superpixels
