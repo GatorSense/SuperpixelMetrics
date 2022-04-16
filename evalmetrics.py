@@ -240,78 +240,78 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def DaviesBouldin(img, labels, K, centers):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def DaviesBouldin(img, labels, K, centers):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    db = np.full([K, 1], -1.00)
+#     db = np.full([K, 1], -1.00)
 
-    for k in range(0, K):
-        clustk = img[labels == k]
-        nk = clustk.shape[0]
-        ck = centers[k]
-        dwtnk = np.sum(np.linalg.norm((clustk - ck), None, 1)) / nk
+#     for k in range(0, K):
+#         clustk = img[labels == k]
+#         nk = clustk.shape[0]
+#         ck = centers[k]
+#         dwtnk = np.sum(np.linalg.norm((clustk - ck), None, 1)) / nk
 
-        for j in range(0, K):
+#         for j in range(0, K):
 
-            if j == k:
-                continue
+#             if j == k:
+#                 continue
 
-            clustj = img[labels == j]
-            nj = clustj.shape[0]
-            cj = centers[j]
-            dwtnj = np.sum(np.linalg.norm((clustj - cj), None, 1)) / nj
-            dn = np.linalg.norm((ck - cj))
+#             clustj = img[labels == j]
+#             nj = clustj.shape[0]
+#             cj = centers[j]
+#             dwtnj = np.sum(np.linalg.norm((clustj - cj), None, 1)) / nj
+#             dn = np.linalg.norm((ck - cj))
 
-            dbj = (dwtnk + dwtnj) / dn
+#             dbj = (dwtnk + dwtnj) / dn
 
-            if dbj > db[k]:
-                db[k] = dbj
+#             if dbj > db[k]:
+#                 db[k] = dbj
 
-    score = np.mean(db)
+#     score = np.mean(db)
 
-    return score
+#     return score
 
 
-def LocalDaviesBouldin(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def LocalDaviesBouldin(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        clustk = img[labels == k]
-        ck = centers[k]
+#     for k in range(0, K):
+#         clustk = img[labels == k]
+#         ck = centers[k]
 
-        nhbrs = Al[k]
+#         nhbrs = Al[k]
 
-        diamk = np.max(pdist(clustk))
-        dbMAX = 0
+#         diamk = np.max(pdist(clustk))
+#         dbMAX = 0
 
-        for j in nhbrs:
-            clustj = img[labels == j]
-            cj = centers[j]
+#         for j in nhbrs:
+#             clustj = img[labels == j]
+#             cj = centers[j]
 
-            if j == k:
-                continue
+#             if j == k:
+#                 continue
 
-            dn = np.linalg.norm((ck - cj))
-            diamj = np.max(pdist(clustj))
+#             dn = np.linalg.norm((ck - cj))
+#             diamj = np.max(pdist(clustj))
 
-            if ((diamk + diamj) / dn) > dbMAX:
-                dbMAX = (diamk + diamj) / dn
+#             if ((diamk + diamj) / dn) > dbMAX:
+#                 dbMAX = (diamk + diamj) / dn
 
-        kscores[k] = dbMAX
+#         kscores[k] = dbMAX
 
-    return kscores
+#     return kscores
 
 
 def Dunn(img, labels, K, centers):
