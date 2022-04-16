@@ -437,53 +437,53 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def RSquared(img, labels, K, C, centers):
-    """
-    K = number of superpixels
-    C = mean vector of image 1xD where D is the dimensionality of a pixel
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def RSquared(img, labels, K, C, centers):
+#     """
+#     K = number of superpixels
+#     C = mean vector of image 1xD where D is the dimensionality of a pixel
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    num = 0
+#     num = 0
 
-    for k in range(0, K):
-        clust = img[labels == k]
-        nk = clust.shape[0]
+#     for k in range(0, K):
+#         clust = img[labels == k]
+#         nk = clust.shape[0]
 
-        num = num + nk * np.linalg.norm(centers[k] - C) ** 2
+#         num = num + nk * np.linalg.norm(centers[k] - C) ** 2
 
-    score = num / (np.sum(np.linalg.norm((img - C), None, 1) ** 2))
+#     score = num / (np.sum(np.linalg.norm((img - C), None, 1) ** 2))
 
-    return score
+#     return score
 
 
-def LocalRSquared(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def LocalRSquared(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        nhbrs = np.append(Al[k], k)
-        nhbrhd = img[np.in1d(labels, nhbrs)]
-        Cnk = np.mean(nhbrhd, 0)
+#     for k in range(0, K):
+#         nhbrs = np.append(Al[k], k)
+#         nhbrhd = img[np.in1d(labels, nhbrs)]
+#         Cnk = np.mean(nhbrhd, 0)
 
-        num = 0
-        for j in nhbrs:
-            clustj = img[labels == j]
-            nj = clustj.shape[0]
+#         num = 0
+#         for j in nhbrs:
+#             clustj = img[labels == j]
+#             nj = clustj.shape[0]
 
-            num = num + (nj * np.linalg.norm(centers[j] - Cnk) ** 2)
+#             num = num + (nj * np.linalg.norm(centers[j] - Cnk) ** 2)
 
-        kscores[k] = num / (np.sum(np.linalg.norm((nhbrhd - Cnk), None, 1) ** 2))
+#         kscores[k] = num / (np.sum(np.linalg.norm((nhbrhd - Cnk), None, 1) ** 2))
 
-    return kscores
+#     return kscores
 
 
 def RootMeanSquaredStandardDeviation(img, labels, K, centers):
