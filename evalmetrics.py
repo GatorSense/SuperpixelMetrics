@@ -583,25 +583,25 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def Variance(img, labels, K, centers):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def Variance(img, labels, K, centers):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        clust = img[labels == k]
-        nk = clust.shape[0]
+#     for k in range(0, K):
+#         clust = img[labels == k]
+#         nk = clust.shape[0]
 
-        num = np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
+#         num = np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
 
-        kscores[k] = num / nk
+#         kscores[k] = num / nk
 
-    return kscores
+#     return kscores
 
 
 def Compactness(img, labels, n, K, properties):
