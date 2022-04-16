@@ -486,53 +486,53 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def RootMeanSquaredStandardDeviation(img, labels, K, centers):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def RootMeanSquaredStandardDeviation(img, labels, K, centers):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    dwtn = 0
-    denom = 0
+#     dwtn = 0
+#     denom = 0
 
-    for k in range(0, K):
-        clust = img[labels == k]
-        nk = clust.shape[0]
-        dwtn = dwtn + np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
-        denom = denom + (nk - 1)
+#     for k in range(0, K):
+#         clust = img[labels == k]
+#         nk = clust.shape[0]
+#         dwtn = dwtn + np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
+#         denom = denom + (nk - 1)
 
-    score = np.sqrt(dwtn / denom)
+#     score = np.sqrt(dwtn / denom)
 
-    return score
+#     return score
 
 
-def LocalRootMeanSquaredStandardDeviation(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def LocalRootMeanSquaredStandardDeviation(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        nhbrs = np.append(Al[k], k)
-        dwtn = 0
-        denom = 0
+#     for k in range(0, K):
+#         nhbrs = np.append(Al[k], k)
+#         dwtn = 0
+#         denom = 0
 
-        for j in nhbrs:
-            clustj = img[labels == j]
-            nj = clustj.shape[0]
+#         for j in nhbrs:
+#             clustj = img[labels == j]
+#             nj = clustj.shape[0]
 
-            dwtn = dwtn + np.sum(np.linalg.norm((clustj - centers[j]), None, 1) ** 2)
-            denom = denom + (nj - 1)
+#             dwtn = dwtn + np.sum(np.linalg.norm((clustj - centers[j]), None, 1) ** 2)
+#             denom = denom + (nj - 1)
 
-        kscores[k] = np.sqrt(dwtn / denom)
+#         kscores[k] = np.sqrt(dwtn / denom)
 
-    return kscores
+#     return kscores
 
 
 def XieBeni(img, labels, n, K, centers):
