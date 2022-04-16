@@ -4,13 +4,28 @@ from scipy.spatial.distance import pdist
 from skimage.measure import regionprops
 
 
-def ComputeAdjacency(labels, K, connectivity):
+def ComputeAdjacency(
+    labels: np.ndarray, K: int, connectivity=8
+) -> tuple(np.ndarray, list):
     """
-    K = number of superpixels
-    labels = RxC where R is the number of rows in an image and C is the number of columns
-    connectivity = 4 or 8
+    Compute adjacency matrix
 
-    returns Am = adjacency matrix and Al = adjacency list
+    Inputs
+    ------
+    labels: np.ndarray (int) size(image)
+        NumPy array containing superpixel label of each pixel.
+    K: int
+        Number of superpixels within the image.
+    connectivity: int [4 | 8]
+        Connectivity of neighborhood for each superpixel. Default 8.
+    
+    Outputs
+    -------
+    Am: np.ndarray (int) size(K x K)
+        Adjacency matrix containing values indicating adjacent superpixels
+        in theneighborhood. 
+    Al: list len(K)
+        List containing adjacent indices for each superpixel neighborhood.
     
     """
     rows, cols = labels.shape[0], labels.shape[1]
