@@ -55,7 +55,7 @@ def LocalCalinskiHarabasz(
     K: int,
     centers: npt.NDArray[np.float64],
     Al: List[int],
-):
+) -> npt.NDArray[np.float64]:
     """
     Compute local Calinski Harabasz index for each superpixel.
 
@@ -103,7 +103,13 @@ def LocalCalinskiHarabasz(
     return kscores
 
 
-def LocalCalinskiHarabasz2(img, labels, K, centers, Al):
+def LocalCalinskiHarabasz2(
+    img: npt.NDArray[np.float64],
+    labels: npt.NDArray[np.int_],
+    K: int,
+    centers: npt.NDArray[np.float64],
+    Al: List[int],
+) -> npt.NDArray[np.float64]:
     """
     Compute variant of Local Calinski Harabasz index for each superpixel.
 
