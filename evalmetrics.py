@@ -5,13 +5,14 @@ from skimage.measure import regionprops
 
 
 def ComputeAdjacency(labels, K, connectivity):
+    """
+    K = number of superpixels
+    labels = RxC where R is the number of rows in an image and C is the number of columns
+    connectivity = 4 or 8
 
-    # K = number of superpixels
-    # labels = RxC where R is the number of rows in an image and C is the number of columns
-    # connectivity = 4 or 8
-
-    # returns Am = adjacency matrix and Al = adjacency list
-
+    returns Am = adjacency matrix and Al = adjacency list
+    
+    """
     rows, cols = labels.shape[0], labels.shape[1]
 
     r = []
@@ -87,10 +88,11 @@ def ComputeAdjacency(labels, K, connectivity):
 
 
 def ComputeProperties(labels):
+    """
+    labels = RxC where R is the number of rows in an image and C is the number of columns (values must begin at one)
 
-    # labels = RxC where R is the number of rows in an image and C is the number of columns (values must begin at one)
-
-    # returns superpixel properties, refer to https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops
+    returns superpixel properties, refer to https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops
+    """
 
     properties = regionprops(labels)
 
