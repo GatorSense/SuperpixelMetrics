@@ -314,127 +314,127 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def Dunn(img, labels, K, centers):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def Dunn(img, labels, K, centers):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    dunn = np.full([K, 1], 0.00)
-    diamMAX = 0.00
+#     dunn = np.full([K, 1], 0.00)
+#     diamMAX = 0.00
 
-    for k in range(0, K):
-        clust = img[labels == k]
+#     for k in range(0, K):
+#         clust = img[labels == k]
 
-        if np.max(pdist(clust)) > diamMAX:
-            diamMAX = np.max(pdist(clust))
+#         if np.max(pdist(clust)) > diamMAX:
+#             diamMAX = np.max(pdist(clust))
 
-    for k in range(0, K):
+#     for k in range(0, K):
 
-        dunnMIN = float("inf")
-        for j in range(0, K):
+#         dunnMIN = float("inf")
+#         for j in range(0, K):
 
-            if j == k:
-                continue
+#             if j == k:
+#                 continue
 
-            dn = np.linalg.norm((centers[k] - centers[j]))
-            if (dn / diamMAX) < dunnMIN:
-                dunnMIN = dn / diamMAX
-                dunn[k] = dunnMIN
+#             dn = np.linalg.norm((centers[k] - centers[j]))
+#             if (dn / diamMAX) < dunnMIN:
+#                 dunnMIN = dn / diamMAX
+#                 dunn[k] = dunnMIN
 
-    score = np.min(dunn)
+#     score = np.min(dunn)
 
-    return score
-
-
-def LocalDunn(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
-
-    kscores = np.full([K, 1], 0.00)
-
-    for k in range(0, K):
-        clustk = img[labels == k]
-        nhbrs = Al[k]
-        dunnMIN = float("inf")
-        diamMAX = np.max(pdist(clustk))
-
-        for j in nhbrs:
-            clustj = img[labels == j]
-
-            if np.max(pdist(clustj)) > diamMAX:
-                diamMAX = np.max(pdist(clustj))
-
-        for j in nhbrs:
-            dn = np.linalg.norm((centers[k] - centers[j]))
-
-            if (dn / diamMAX) < dunnMIN:
-                dunnMIN = dn / diamMAX
-
-        kscores[k] = dunnMIN
-
-    return kscores
+#     return score
 
 
-def I(img, labels, K, C, centers):
-    """
-    K = number of superpixels
-    C = mean vector of image 1xD where D is the dimensionality of a pixel
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def LocalDunn(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    imageDISP = np.sum(np.linalg.norm((img - C), None, 1))
-    dwtn = 0.00
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        clust = img[labels == k]
+#     for k in range(0, K):
+#         clustk = img[labels == k]
+#         nhbrs = Al[k]
+#         dunnMIN = float("inf")
+#         diamMAX = np.max(pdist(clustk))
 
-        dwtnk = np.sum(np.linalg.norm(clust - centers[k], None, 1))
-        dwtn = dwtn + dwtnk
+#         for j in nhbrs:
+#             clustj = img[labels == j]
 
-    score = ((np.max(pdist(centers)) * imageDISP) / (dwtn * K)) ** 2
+#             if np.max(pdist(clustj)) > diamMAX:
+#                 diamMAX = np.max(pdist(clustj))
 
-    return score
+#         for j in nhbrs:
+#             dn = np.linalg.norm((centers[k] - centers[j]))
+
+#             if (dn / diamMAX) < dunnMIN:
+#                 dunnMIN = dn / diamMAX
+
+#         kscores[k] = dunnMIN
+
+#     return kscores
 
 
-def LocalI(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def I(img, labels, K, C, centers):
+#     """
+#     K = number of superpixels
+#     C = mean vector of image 1xD where D is the dimensionality of a pixel
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     imageDISP = np.sum(np.linalg.norm((img - C), None, 1))
+#     dwtn = 0.00
 
-    for k in range(0, K):
-        nhbrs = np.append(Al[k], k)
-        nhbrhd = img[np.in1d(labels, nhbrs)]
-        Cnk = np.mean(nhbrhd, 0)
+#     for k in range(0, K):
+#         clust = img[labels == k]
 
-        nhbrhdDISP = np.sum(np.linalg.norm((nhbrhd - Cnk), None, 1))
+#         dwtnk = np.sum(np.linalg.norm(clust - centers[k], None, 1))
+#         dwtn = dwtn + dwtnk
 
-        dwtn = 0.00
+#     score = ((np.max(pdist(centers)) * imageDISP) / (dwtn * K)) ** 2
 
-        for j in nhbrs:
-            clust = img[labels == j]
+#     return score
 
-            dwtnj = np.sum(np.linalg.norm(clust - centers[j], None, 1))
-            dwtn = dwtn + dwtnj
 
-        kscores[k] = (
-            (np.max(pdist(centers[nhbrs])) * nhbrhdDISP) / (dwtn * len(nhbrs))
-        ) ** 2
+# def LocalI(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    return kscores
+#     kscores = np.full([K, 1], 0.00)
+
+#     for k in range(0, K):
+#         nhbrs = np.append(Al[k], k)
+#         nhbrhd = img[np.in1d(labels, nhbrs)]
+#         Cnk = np.mean(nhbrhd, 0)
+
+#         nhbrhdDISP = np.sum(np.linalg.norm((nhbrhd - Cnk), None, 1))
+
+#         dwtn = 0.00
+
+#         for j in nhbrs:
+#             clust = img[labels == j]
+
+#             dwtnj = np.sum(np.linalg.norm(clust - centers[j], None, 1))
+#             dwtn = dwtn + dwtnj
+
+#         kscores[k] = (
+#             (np.max(pdist(centers[nhbrs])) * nhbrhdDISP) / (dwtn * len(nhbrs))
+#         ) ** 2
+
+#     return kscores
 
 
 def RSquared(img, labels, K, C, centers):
