@@ -604,23 +604,23 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def Compactness(img, labels, n, K, properties):
-    """
-    n = number of pixels in image
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    """
+# def Compactness(img, labels, n, K, properties):
+#     """
+#     n = number of pixels in image
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        clust = img[labels == k]
-        nk = clust.shape[0]
-        pk = properties[k]["perimeter"]
+#     for k in range(0, K):
+#         clust = img[labels == k]
+#         nk = clust.shape[0]
+#         pk = properties[k]["perimeter"]
 
-        kscores[k] = ((nk ** 2) * 4 * np.pi) / (pk ** 2)
+#         kscores[k] = ((nk ** 2) * 4 * np.pi) / (pk ** 2)
 
-    score = np.sum(kscores) / n
+#     score = np.sum(kscores) / n
 
-    return score
+#     return score
