@@ -535,52 +535,52 @@ def ComputeProperties(labels):
 #     return kscores
 
 
-def XieBeni(img, labels, n, K, centers):
-    """
-    n = number of pixels in image
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def XieBeni(img, labels, n, K, centers):
+#     """
+#     n = number of pixels in image
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    dwtn = 0
-    dn = pdist(centers) ** 2
+#     dwtn = 0
+#     dn = pdist(centers) ** 2
 
-    for k in range(0, K):
-        clust = img[labels == k]
-        dwtn = dwtn + np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
+#     for k in range(0, K):
+#         clust = img[labels == k]
+#         dwtn = dwtn + np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
 
-    score = dwtn / (n * (np.min(dn)))
+#     score = dwtn / (n * (np.min(dn)))
 
-    return score
+#     return score
 
 
-def LocalXieBeni(img, labels, K, centers, Al):
-    """
-    K = number of superpixels
-    img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-    labels = nx1 where n is the number of pixels in the image
-    centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-    """
+# def LocalXieBeni(img, labels, K, centers, Al):
+#     """
+#     K = number of superpixels
+#     img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
+#     labels = nx1 where n is the number of pixels in the image
+#     centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+#     """
 
-    kscores = np.full([K, 1], 0.00)
+#     kscores = np.full([K, 1], 0.00)
 
-    for k in range(0, K):
-        nhbrs = np.append(Al[k], k)
-        nhbrhd = img[np.in1d(labels, nhbrs)]
-        nnk = nhbrhd.shape[0]
+#     for k in range(0, K):
+#         nhbrs = np.append(Al[k], k)
+#         nhbrhd = img[np.in1d(labels, nhbrs)]
+#         nnk = nhbrhd.shape[0]
 
-        dwtn = 0
-        dn = pdist(centers[nhbrs]) ** 2
+#         dwtn = 0
+#         dn = pdist(centers[nhbrs]) ** 2
 
-        for j in nhbrs:
-            clustj = img[labels == j]
-            dwtn = dwtn + np.sum(np.linalg.norm((clustj - centers[j]), None, 1) ** 2)
+#         for j in nhbrs:
+#             clustj = img[labels == j]
+#             dwtn = dwtn + np.sum(np.linalg.norm((clustj - centers[j]), None, 1) ** 2)
 
-        kscores[k] = dwtn / (nnk * np.min(dn))
+#         kscores[k] = dwtn / (nnk * np.min(dn))
 
-    return kscores
+#     return kscores
 
 
 def Variance(img, labels, K, centers):
