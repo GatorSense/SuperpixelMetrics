@@ -3,7 +3,7 @@ import numpy.typing as npt
 from typing import List
 
 
-def RootMeanSquaredStandardDeviation(
+def RMSSTD(
     img: npt.NDArray[np.float64],
     labels: npt.NDArray[np.int_],
     K: int,
@@ -42,7 +42,7 @@ def RootMeanSquaredStandardDeviation(
     return score
 
 
-def LocalRootMeanSquaredStandardDeviation(
+def LocalRMSSTD(
     img: npt.NDArray[np.float64],
     labels: npt.NDArray[np.int_],
     K: int,
