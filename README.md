@@ -17,6 +17,8 @@ Metric validation experiments were conducted on the 200 images in the BSDS500 tr
     P. Arbelaez, M. Maire, C. Fowlkes and J. Malik.
     IEEE TPAMI, Vol. 33, No. 5, pp. 898-916, May 2011.
 
+***
+
 ## II. Functions
 
 ```python 
@@ -276,7 +278,15 @@ Output:
 
 ***
 
-## III. Citing
+## III. Demo
+
+`demo.ipynb` includes a demonstration using the image displayed below to obtain superpixels and run the 17 metrics is included.
+
+<img src = "alligator.jpg" width = "250" height = "250"/>
+
+***
+
+## IV. Citing
 
 If you use this code, please cite ..
 
