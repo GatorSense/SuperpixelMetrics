@@ -1,15 +1,10 @@
 import numpy as np
 import numpy.typing as npt
-from typing import List
+import utils
 
 
 def CalinskiHarabasz(
-    img: npt.NDArray[np.float64],
-    labels: npt.NDArray[np.int_],
-    n: int,
-    K: int,
-    C: npt.NDArray[np.float64],
-    centers: npt.NDArray[np.float64],
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]
 ) -> float:
     """
     Compute Calinski Harabasz index.
@@ -17,21 +12,21 @@ def CalinskiHarabasz(
 
     Inputs
     ------
-    img: np.ndarray (float) shape:(n x D)
+    img: np.ndarray (float) shape:(R x C x d)
         Reshaped NumPy array of image data with each row containing a pixel and its features.
-    labels: np.ndarray (int) shape:(n x 1)?
-        NumPy array containing superpixel label of each pixel. 
-    n: int
-        Number of pixels in image.
-    K: int
-        Number of superpixels within the image.
-    C: np.ndarray (float) shape: (1 x D)
-        Mean vector of image.
-    
+    labels: np.ndarray (int) shape:(R x C)
+        NumPy array containing superpixel label of each pixel.
+
     Output
     ------
     Calinski Harabasz score.
     """
+    img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
+    labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    C = np.mean(img, 0)
+    centers = utils.ComputeCenters(img, labels)
+    K = utils.get_K(labels)
+    n = utils.get_n(img)
 
     ssbtwn = 0
     sswtn = 0
@@ -50,33 +45,28 @@ def CalinskiHarabasz(
 
 
 def LocalCalinskiHarabasz(
-    img: npt.NDArray[np.float64],
-    labels: npt.NDArray[np.int_],
-    K: int,
-    centers: npt.NDArray[np.float64],
-    Al: List[int],
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]
 ) -> npt.NDArray[np.float64]:
     """
     Compute local Calinski Harabasz index for each superpixel.
 
     Inputs
     ------
-    img: np.ndarray (float) shape:(n x D)
+    img: np.ndarray (float) shape:(R x C x d)
         Reshaped NumPy array of image data with each row containing a pixel and its features.
-    labels: np.ndarray (int) shape:(n x 1)?
+    labels: np.ndarray (int) shape:(R x C)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
-    centers: np.ndarray (float) shape:(K x D)
-        Superpixel centers in feature space.
-    Al: list len(K)
-        List containing adjacent indices for each superpixel neighborhood.
-    
+
     Output
     ------
     kscores: np.ndarray (float) shape:(K x 1)
         Local Calinski Harabasz score for each superpixel.
     """
+    _, Al = utils.ComputeAdjacency(labels)
+    img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
+    labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    centers = utils.ComputeCenters(img, labels)
+    K = utils.get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
@@ -104,33 +94,28 @@ def LocalCalinskiHarabasz(
 
 
 def LocalCalinskiHarabasz2(
-    img: npt.NDArray[np.float64],
-    labels: npt.NDArray[np.int_],
-    K: int,
-    centers: npt.NDArray[np.float64],
-    Al: List[int],
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]
 ) -> npt.NDArray[np.float64]:
     """
     Compute variant of Local Calinski Harabasz index for each superpixel.
 
     Inputs
     ------
-    img: np.ndarray (float) shape:(n x D)
+    img: np.ndarray (float) shape:(R x C x d)
         Reshaped NumPy array of image data with each row containing a pixel and its features.
-    labels: np.ndarray (int) shape:(n x 1)?
+    labels: np.ndarray (int) shape:(R x C)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
-    centers: np.ndarray (float) shape:(K x D)
-        Superpixel centers in feature space.
-    Al: list len(K)
-        List containing adjacent indices for each superpixel neighborhood.
-    
+
     Output
     ------
     kscores: np.ndarray (float) shape:(K x 1)
         Variant of Local Calinski Harabasz score for each superpixel.
     """
+    _, Al = utils.ComputeAdjacency(labels)
+    img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
+    labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    centers = utils.ComputeCenters(img, labels)
+    K = utils.get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 

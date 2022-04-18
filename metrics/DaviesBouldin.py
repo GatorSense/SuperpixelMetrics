@@ -1,35 +1,30 @@
 import numpy as np
 import numpy.typing as npt
 from scipy.spatial.distance import pdist
-from typing import List
+import utils
 
 
-def DaviesBouldin(
-    img: npt.NDArray[np.float64],
-    labels: npt.NDArray[np.int_],
-    K: int,
-    centers: npt.NDArray[np.float64],
-) -> float:
+def DaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
     """
     Compute Davies Bouldin index.
     # Include citation
 
     Inputs
     ------
-    img: np.ndarray (float) shape:(n x D)
+    img: np.ndarray (float) shape:(R x C x d)
         Reshaped NumPy array of image data with each row containing a pixel and its features.
-    labels: np.ndarray (int) shape:(n x 1)?
+    labels: np.ndarray (int) shape:(R x C)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
-    centers: np.ndarray (float) shape:(K x D)
-        Superpixel centers in feature space. 
-    
+
     Output
     ------
     score: float
         Davies Bouldin score.
     """
+    img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
+    labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    centers = utils.ComputeCenters(img, labels)
+    K = utils.get_K(labels)
 
     db = np.full([K, 1], -1.00)
 
@@ -60,35 +55,28 @@ def DaviesBouldin(
     return score
 
 
-def LocalDaviesBouldin(
-    img: npt.NDArray[np.float64],
-    labels: npt.NDArray[np.int_],
-    K: int,
-    centers: npt.NDArray[np.float64],
-    Al: List[int],
-):
+def LocalDaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]):
     """
     Compute Local Davies Bouldin index.
     # Include citation
 
     Inputs
     ------
-    img: np.ndarray (float) shape:(n x D)
+    img: np.ndarray (float) shape:(R x C x d)
         Reshaped NumPy array of image data with each row containing a pixel and its features.
-    labels: np.ndarray (int) shape:(n x 1)?
+    labels: np.ndarray (int) shape:(R x C)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
-    centers: np.ndarray (float) shape:(K x D)
-        Superpixel centers in feature space.
-    Al: list len(K)
-        List containing adjacent indices for each superpixel neighborhood.
-    
+
     Output
     ------
     kscores: np.ndarray (float) shape:(K x 1)
         Local Davies Bouldin score for each superpixel.
     """
+    _, Al = utils.ComputeAdjacency(labels)
+    img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
+    labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    centers = utils.ComputeCenters(img, labels)
+    K = utils.get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
