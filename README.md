@@ -21,257 +21,213 @@ Metric validation experiments were conducted on the 200 images in the BSDS500 tr
 
 ## II. Functions
 
+```python
+def get_K(labels)
+```
+Inputs:
+- labels = n x 1 where n is the number of pixels
+
+Outputs: 
+- K = number of superpixels
+
+```python
+def get_n(img)
+```
+Inputs:
+- img = n x d where n is the number of pixels and d is the number of feature dimensions
+
+Outputs:
+- n = number of pixels in image
+
 ```python 
 def ComputeAdjacency(labels, K, connectivity) 
 ```
 Inputs: 
 - K = number of superpixels
-- labels = RxC where R is the number of rows in an image and C is the number #of columns
+- labels = R x C where R is the number of rows in an image and C is the number #of columns
 - connectivity = 4 or 8
 
 Outputs:
-- Am = adjacency matrix, RxC where R is the number of rows in an image and C is the number of columns
-- Al = adjacency list of length K
-
-```python
- def ComputeProperties(labels)
- ```
-Inputs:     
-- labels = RxC where R is the number of rows in an image and C is the number of columns (values must begin at one)
-
-Output: 
-- refer to [scikit image](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops)
+- Am = adjacency matrix, K x K where K is the number of superpixels
+- Al = adjacency list of length K where K is the number of superpixels
 
 ```python
 def ComputeCenters(img, labels, K)
  ```
 Inputs: 
 - K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
+- img = n x d where n is the number of pixels in the image and d is the dimensionality of a pixel
+- labels = n x 1 where n is the number of pixels in the image
 
 Output:
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- centers = K x d where K is the number of superpixels and d is the dimensionality of a pixel
 
 ```python
-def CalinskiHarabasz(img, labels, n, K, C, centers) 
+def CalinskiHarabasz(img, labels) 
 ```
 Inputs: 
-- n = number of pixels in image
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalCalinskiHarabasz(img, labels, K, centers, Al)
+def LocalCalinskiHarabasz(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
- def LocalCalinskiHarabasz2(img, labels, K, centers, Al)
+ def LocalCalinskiHarabasz2(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def DaviesBouldin(img, labels, K, centers)
+def DaviesBouldin(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalDaviesBouldin(img, labels, K, centers, Al)
+def LocalDaviesBouldin(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def Dunn(img, labels, K, centers)
+def Dunn(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalDunn(img, labels, K, centers, Al)
+def LocalDunn(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def I(img, labels, K, C, centers)
+def I(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python 
-def LocalI(img, labels, K, centers, Al)
+def LocalI(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def RSquared(img, labels, K, C, centers)
+def RSquared(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalRSquared(img, labels, K, centers, Al)
+def LocalRSquared(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def RootMeanSquaredStandardDeviation(img, labels, K, centers)
+def RootMeanSquaredStandardDeviation(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalRootMeanSquaredStandardDeviation(img, labels, K, centers, Al)
+def LocalRootMeanSquaredStandardDeviation(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def XieBeni(img, labels, n, K, centers)
+def XieBeni(img, labels)
 ```
 Inputs: 
-- n = number of pixels in image
-- K = number of superpixels
-- C = mean vector of image 1xD where D is the dimensionality of a pixel
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
 
 ```python
-def LocalXieBeni(img, labels, K, centers, Al)
+def LocalXieBeni(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def Variance(img, labels, K, centers)
+def Variance(img, labels)
 ```
 Inputs: 
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- centers = KxD where K is the number of superpixels and D is the dimensionality of a pixel
-- Al = adjacency list of length K
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - kscores = metric scores for each superpixel, length K
 
 ```python
-def Compactness(img, labels, n, K, properties)
+def Compactness(img, labels)
 ```
 Inputs: 
-- n = number of pixels in image
-- K = number of superpixels
-- img = nxD where n is the number of pixels in the image and D is the dimensionality of a pixel
-- labels = nx1 where n is the number of pixels in the image
-- properties = refer to [scikit image](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops)
+- img = R x C x d where R is the number of rows in an image and C is the number #of columns and d is the dimensionality of a pixel
+- labels = R x C where where R is the number of rows in an image and C is the number #of columns
 
 Output: 
 - score = metric score
