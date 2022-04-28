@@ -40,10 +40,9 @@ Outputs:
 - n = number of pixels in image
 
 ```python 
-def ComputeAdjacency(labels, K, connectivity) 
+def ComputeAdjacency(labels, connectivity) 
 ```
 Inputs: 
-- K = number of superpixels
 - labels = R x C where R is the number of rows in an image and C is the number #of columns
 - connectivity = 4 or 8
 
@@ -52,10 +51,9 @@ Outputs:
 - Al = adjacency list of length K where K is the number of superpixels
 
 ```python
-def ComputeCenters(img, labels, K)
+def ComputeCenters(img, labels)
  ```
 Inputs: 
-- K = number of superpixels
 - img = n x d where n is the number of pixels in the image and d is the dimensionality of a pixel
 - labels = n x 1 where n is the number of pixels in the image
 

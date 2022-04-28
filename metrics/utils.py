@@ -41,7 +41,7 @@ def get_n(img: npt.NDArray[np.float64]) -> int:
 
 
 def ComputeAdjacency(
-    labels: npt.NDArray[np.int_], K: int, connectivity=8
+    labels: npt.NDArray[np.int_], connectivity=8
 ) -> tuple(npt.NDArray[np.int_], List[int]):
     """
     Compute adjacency matrix
@@ -50,8 +50,6 @@ def ComputeAdjacency(
     ------
     labels: np.ndarray (int) shape:(R x C)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
     connectivity: int [4 | 8]
         Connectivity of neighborhood for each superpixel. Default 8.
 
@@ -64,6 +62,7 @@ def ComputeAdjacency(
         List containing adjacent indices for each superpixel neighborhood.
     """
     rows, cols = labels.shape[0], labels.shape[1]
+    K = get_K(labels)
 
     r = []
     c = []
@@ -146,7 +145,7 @@ def ComputeAdjacency(
 
 
 def ComputeCenters(
-    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_], K: int
+    img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]
 ) -> npt.NDArray[np.float64]:
     """
     Computes superpixel centers.
@@ -157,15 +156,13 @@ def ComputeCenters(
         Reshaped NumPy array of image data with each row containing a pixel and its features.
     labels: np.ndarray (int) shape:(n x 1)
         NumPy array containing superpixel label of each pixel.
-    K: int
-        Number of superpixels within the image.
 
     Outputs
     -------
     centers: np.ndarray (float) shape:(K x d)
         Superpixel centers in feature space.
     """
-
+    K = get_K(labels)
     centers = np.zeros([K, img.shape[1]])
 
     for k in range(0, K):
