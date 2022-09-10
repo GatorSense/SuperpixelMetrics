@@ -4,8 +4,7 @@
 In this repository, we provide implementations for 17 quantative evaluation metrics for superpixel segmentation as well as code to compute superpixel centers, an adjacency list, an adjacency matrix, and superpixel properties.
 
 The required packages can be found in requirements.txt. To install those, you can use the command:
-
-```pip install -r requirements.txt```
+```"/Users/annahampton/opt/anaconda3/envs/eval_metrics/bin/pip install -r requirements.txt```
 
 ***
 

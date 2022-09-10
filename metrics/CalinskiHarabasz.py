@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.typing as npt
-import utils
+from metrics.utils import *
 
 
 def CalinskiHarabasz(
@@ -23,16 +23,16 @@ def CalinskiHarabasz(
     """
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
+    n = get_n(img)
     C = np.mean(img, 0)
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
-    n = utils.get_n(img)
 
     ssbtwn = 0
     sswtn = 0
 
     for k in range(0, K):
-        clust = img[labels == k]
+        clust = img[np.where(labels == k)[0], :]
         nk = clust.shape[0]
         ck = centers[k]
 
@@ -62,18 +62,18 @@ def LocalCalinskiHarabasz(
     kscores: np.ndarray (float) shape:(K x 1)
         Local Calinski Harabasz score for each superpixel.
     """
-    _, Al = utils.ComputeAdjacency(labels)
+    _, Al = ComputeAdjacency(labels)
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
     for k in range(0, K):
 
         nhbrs = np.append(Al[k], k)
-        nhbrhd = img[np.in1d(labels, nhbrs)]
+        nhbrhd = img[np.in1d(labels, nhbrs), :]
         nnk = nhbrhd.shape[0]
         Cnk = np.mean(nhbrhd, 0)
 
@@ -81,7 +81,7 @@ def LocalCalinskiHarabasz(
         sswtn = 0
 
         for m in nhbrs:
-            clust = img[labels == m]
+            clust = img[np.where(labels == m)[0], :]
             nm = clust.shape[0]
             cm = centers[m]
 
@@ -111,18 +111,18 @@ def LocalCalinskiHarabasz2(
     kscores: np.ndarray (float) shape:(K x 1)
         Variant of Local Calinski Harabasz score for each superpixel.
     """
-    _, Al = utils.ComputeAdjacency(labels)
+    _, Al = ComputeAdjacency(labels)
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
     for k in range(0, K):
 
         nhbrs = np.append(Al[k], k)
-        nhbrhd = img[np.in1d(labels, nhbrs)]
+        nhbrhd = img[np.in1d(labels, nhbrs), :]
         nnk = nhbrhd.shape[0]
         Cnk = np.mean(nhbrhd, 0)
 
@@ -130,7 +130,7 @@ def LocalCalinskiHarabasz2(
         sswtn = 0
 
         for m in nhbrs:
-            clust = img[labels == m]
+            clust = img[np.where(labels == m)[0], :]
             nm = clust.shape[0]
             cm = centers[m]
 

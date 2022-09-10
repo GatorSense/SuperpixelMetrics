@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.typing as npt
-import utils
+from metrics.utils import *
 
 
 def Variance(
@@ -23,13 +23,13 @@ def Variance(
     """
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
     for k in range(0, K):
-        clust = img[labels == k]
+        clust = img[np.where(labels == k)[0], :]
         nk = clust.shape[0]
 
         num = np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)

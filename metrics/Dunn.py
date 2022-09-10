@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.spatial.distance import pdist
 import numpy.typing as npt
-import utils
+from metrics.utils import *
 
 
 def Dunn(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
@@ -23,14 +23,14 @@ def Dunn(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
     """
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     dunn = np.full([K, 1], 0.00)
     diamMAX = 0.00
 
     for k in range(0, K):
-        clust = img[labels == k]
+        clust = img[np.where(labels == k)[0], :]
 
         if np.max(pdist(clust)) > diamMAX:
             diamMAX = np.max(pdist(clust))
@@ -72,22 +72,22 @@ def LocalDunn(
     kscores: np.ndarray (float) shape:(K x 1)
         Local Dunn score for each superpixel.
     """
-    _, Al = utils.ComputeAdjacency(labels)
+    _, Al = ComputeAdjacency(labels)
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
     for k in range(0, K):
-        clustk = img[labels == k]
+        clustk = img[np.where(labels == k)[0], :]
         nhbrs = Al[k]
         dunnMIN = float("inf")
         diamMAX = np.max(pdist(clustk))
 
         for j in nhbrs:
-            clustj = img[labels == j]
+            clustj = img[np.where(labels == j)[0], :]
 
             if np.max(pdist(clustj)) > diamMAX:
                 diamMAX = np.max(pdist(clustj))

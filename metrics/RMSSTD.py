@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 from typing import List
-import utils
+from metrics.utils import *
 
 
 def RMSSTD(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
@@ -21,14 +21,14 @@ def RMSSTD(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
     """
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     dwtn = 0
     denom = 0
 
     for k in range(0, K):
-        clust = img[labels == k]
+        clust = img[np.where(labels == k)[0], :]
         nk = clust.shape[0]
         dwtn = dwtn + np.sum(np.linalg.norm((clust - centers[k]), None, 1) ** 2)
         denom = denom + (nk - 1)
@@ -56,11 +56,11 @@ def LocalRMSSTD(
     kscores: np.ndarray (float) shape:(K x 1)
         Local RMSSTD value for each superpixel.
     """
-    _, Al = utils.ComputeAdjacency(labels)
+    _, Al = ComputeAdjacency(labels)
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
@@ -70,7 +70,7 @@ def LocalRMSSTD(
         denom = 0
 
         for j in nhbrs:
-            clustj = img[labels == j]
+            clustj = img[np.where(labels == j)[0], :]
             nj = clustj.shape[0]
 
             dwtn = dwtn + np.sum(np.linalg.norm((clustj - centers[j]), None, 1) ** 2)

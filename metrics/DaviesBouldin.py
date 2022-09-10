@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 from scipy.spatial.distance import pdist
-import utils
+from metrics.utils import *
 
 
 def DaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) -> float:
@@ -23,13 +23,13 @@ def DaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) ->
     """
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     db = np.full([K, 1], -1.00)
 
     for k in range(0, K):
-        clustk = img[labels == k]
+        clustk = img[np.where(labels == k)[0], :]
         nk = clustk.shape[0]
         ck = centers[k]
         dwtnk = np.sum(np.linalg.norm((clustk - ck), None, 1)) / nk
@@ -39,7 +39,7 @@ def DaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_]) ->
             if j == k:
                 continue
 
-            clustj = img[labels == j]
+            clustj = img[np.where(labels == j)[0],:]
             nj = clustj.shape[0]
             cj = centers[j]
             dwtnj = np.sum(np.linalg.norm((clustj - cj), None, 1)) / nj
@@ -72,16 +72,16 @@ def LocalDaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_
     kscores: np.ndarray (float) shape:(K x 1)
         Local Davies Bouldin score for each superpixel.
     """
-    _, Al = utils.ComputeAdjacency(labels)
+    _, Al = ComputeAdjacency(labels)
     img = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
     labels = np.reshape(labels, (labels.shape[0] * labels.shape[1], 1))
-    centers = utils.ComputeCenters(img, labels)
-    K = utils.get_K(labels)
+    centers = ComputeCenters(img, labels)
+    K = get_K(labels)
 
     kscores = np.full([K, 1], 0.00)
 
     for k in range(0, K):
-        clustk = img[labels == k]
+        clustk = img[np.where(labels == k)[0], :]
         ck = centers[k]
 
         nhbrs = Al[k]
@@ -90,7 +90,7 @@ def LocalDaviesBouldin(img: npt.NDArray[np.float64], labels: npt.NDArray[np.int_
         dbMAX = 0
 
         for j in nhbrs:
-            clustj = img[labels == j]
+            clustj = img[np.where(labels == j)[0], :]
             cj = centers[j]
 
             if j == k:

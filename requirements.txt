@@ -3,3 +3,5 @@ scipy
 scikit-image
 jupyter
 typing
+pysnic
+matplotlib

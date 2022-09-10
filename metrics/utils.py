@@ -38,11 +38,13 @@ def get_n(img: npt.NDArray[np.float64]) -> int:
         Number of pixels in image.
     """
     n = img.shape[0]
+    
+    return n
 
 
 def ComputeAdjacency(
     labels: npt.NDArray[np.int_], connectivity=8
-) -> tuple(npt.NDArray[np.int_], List[int]):
+) -> tuple([npt.NDArray[np.int_], List[int]]):
     """
     Compute adjacency matrix
 
@@ -166,7 +168,7 @@ def ComputeCenters(
     centers = np.zeros([K, img.shape[1]])
 
     for k in range(0, K):
-        clust = img[labels == k]
+        clust = img[np.where(labels == k)[0],:]
         centers[k, 0 : img.shape[1]] = np.mean(clust, 0)
 
     return centers
