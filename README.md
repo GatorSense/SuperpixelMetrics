@@ -1,5 +1,5 @@
 
-# Comparison of Quantitative Evaluation Metrics for Superpixel Segmentation 
+# Comparison of Quantitative Metrics for Superpixel Segmentation 
 
 In this repository, we provide implementations for 17 quantative evaluation metrics for superpixel segmentation as well as code to compute superpixel centers, an adjacency list, an adjacency matrix, and superpixel properties.
 
